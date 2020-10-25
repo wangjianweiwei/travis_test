@@ -1,15 +1,31 @@
-- name: 自动发布
+- name: Auto Deploy
+  gather_facts: False
   hosts: my
-  vars:
-    v: "master"
-    s: "restarted"
+  # 从命令行获取变量
+  vars_prompt:
+    - name: version
+      prompt: 你想要发布的[分支/commit ID/tag]
+      # 默认为隐式输入, 该参数可以控制
+      private: no
+      # 设置默认值
+      default: "test"
+
+    - name: state
+      prompt: started, restarted, stopped?
+      private: no
+      default: "restarted"
+
+    - name: password
+      prompt: 密码是多少?
+      confirm: yes
+
   tasks:
     - name: update code
       git:
         repo: git@github.com:wangjianweiwei/travis_test.git
         dest: ~/travis_test
         accept_hostkey: yes
-        version: "{{ v }}"
+        version: "{{ version }}"
 
     - name: Install specified python requirements
       pip:
@@ -19,5 +35,5 @@
 
     - name: restrat server
       supervisorctl:
-        state: "{{ s }}"
+        state: "{{ state }}"
         name: travis_test
