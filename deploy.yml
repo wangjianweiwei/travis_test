@@ -9,7 +9,7 @@
         chdir: travis_test
         requirements: requirements.txt
         virtualenv: /root/Envs/flask_test
-    - name: run server
-      shell:
-        chdir: travis_test
-        cmd: nohup python app.py &
+    - name: restrat server
+      supervisorctl:
+        name: travis_test
+        state: restarted
