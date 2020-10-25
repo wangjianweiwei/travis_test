@@ -9,6 +9,7 @@
         chdir: travis_test
         requirements: requirements.txt
         virtualenv: /root/Envs/flask_test
+
     - name: restrat server
       supervisorctl:
         name: travis_test
