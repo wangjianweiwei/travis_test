@@ -1,0 +1,15 @@
+- name: 自动发布
+  hosts: my
+  tasks:
+    - name: update code
+      git: repo="git@github.com:wangjianweiwei/travis_test.git" dest="~/travis_test" accept_hostkey=yes
+
+    - name: Install specified python requirements
+      pip:
+        chdir: travis_test
+        requirements: requirements.txt
+        virtualenv: /root/Envs/flask_test
+    - name: run server
+      shell:
+        chdir: travis_test
+        cmd: nohup python app.py &
