@@ -1,6 +1,9 @@
 - name: Auto Deploy
   gather_facts: False
   hosts: my
+  vars_files:
+    - vars.yml
+
   # 从命令行获取变量
   vars_prompt:
     - name: version
@@ -31,9 +34,9 @@
       pip:
         chdir: travis_test
         requirements: requirements.txt
-        virtualenv: /root/Envs/flask_test
+        virtualenv: "{{ virtualenv_path }}"
 
     - name: restrat server
       supervisorctl:
-        state: "{{ state }}"
         name: travis_test
+        state: "{{ state }}"
