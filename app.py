@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "Travis-CI 3.0.0 beta"
+    return "Travis-CI 3.0.1 beta"
 
 
 if __name__ == '__main__':
